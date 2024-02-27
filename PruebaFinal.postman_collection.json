@@ -1,0 +1,314 @@
+{
+	"info": {
+		"_postman_id": "28ac4bbf-3c4d-45a9-9038-774bb897d83e",
+		"name": "PruebaFinal",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29413328"
+	},
+	"item": [
+		{
+			"name": "GetComments",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonResponse = pm.response.json();\r",
+							"\r",
+							"pm.test(\"IdComment\", function(){\r",
+							"    if (Array.isArray(jsonResponse) && jsonResponse.length > 0) {\r",
+							"        var ultimoElemento = jsonResponse[jsonResponse.length - 1];\r",
+							"        pm.collectionVariables.set(\"idPost\", JSON.stringify(ultimoElemento.post_id));\r",
+							"    } else {\r",
+							"        console.log(\"La respuesta no es un array o está vacía.\");\r",
+							"    }\r",
+							"    pm.expect(pm.collectionVariables.get(\"idPost\")).to.eql(JSON.stringify(ultimoElemento.post_id));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"IdPost\", function(){\r",
+							"    if (Array.isArray(jsonResponse) && jsonResponse.length > 0) {\r",
+							"        var elementosConMismoIdPost = [];\r",
+							"        var idPost = jsonResponse[jsonResponse.length - 1].post_id;\r",
+							"        console.log(\"ID POST \" + idPost);\r",
+							"        \r",
+							"        jsonResponse.forEach(function(elemento) {\r",
+							"\r",
+							"            if (elemento.post_id === idPost) {\r",
+							"                elementosConMismoIdPost.push(elemento);\r",
+							"            }\r",
+							"        });\r",
+							"\r",
+							"    } else {\r",
+							"        console.log(\"La respuesta no es un array o está vacía.\");\r",
+							"    }\r",
+							"    console.log(\"RESULTADO \" + JSON.stringify(elementosConMismoIdPost));\r",
+							"    pm.expect(elementosConMismoIdPost.length > 0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "e456e110d312ea4c444d8bc03c77222b2c90f1c724b33474c3ce45e481908605",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://gorest.co.in/public/v2/comments",
+					"protocol": "https",
+					"host": [
+						"gorest",
+						"co",
+						"in"
+					],
+					"path": [
+						"public",
+						"v2",
+						"comments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PostComment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.collectionVariables.set(\"idComment\", JSON.stringify(jsonData.id));\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "e456e110d312ea4c444d8bc03c77222b2c90f1c724b33474c3ce45e481908605",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{name}}\",\r\n    \"email\": \"{{email}}\",\r\n    \"body\": \"Nuevo body\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://gorest.co.in/public/v2/posts/{{idPost}}/comments",
+					"protocol": "https",
+					"host": [
+						"gorest",
+						"co",
+						"in"
+					],
+					"path": [
+						"public",
+						"v2",
+						"posts",
+						"{{idPost}}",
+						"comments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PatchComment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Your test name\", function () {    \r",
+							"    pm.expect(jsonData.name).to.eql(\"Roberto\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "e456e110d312ea4c444d8bc03c77222b2c90f1c724b33474c3ce45e481908605",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Roberto\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://gorest.co.in/public/v2/comments/{{idComment}}",
+					"protocol": "https",
+					"host": [
+						"gorest",
+						"co",
+						"in"
+					],
+					"path": [
+						"public",
+						"v2",
+						"comments",
+						"{{idComment}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteComment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							"\r",
+							"pm.sendRequest({\r",
+							"    url: \"https://gorest.co.in/public/v2/comments\",\r",
+							"    method: \"GET\",\r",
+							"  }, function (err, response) {\r",
+							"      \r",
+							"    pm.test(\"Changes were made successfully\", function () {\r",
+							"      var jsonResponse = response.json();\r",
+							"      jsonResponse.forEach(function(elemento) {\r",
+							"        console.log(\"LISTA \" + JSON.stringify(elemento));\r",
+							"        pm.expect(elemento.id).not.eql(pm.collectionVariables.get(\"idComment\"));\r",
+							"      })\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "e456e110d312ea4c444d8bc03c77222b2c90f1c724b33474c3ce45e481908605",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://gorest.co.in/public/v2/comments/{{idComment}}",
+					"protocol": "https",
+					"host": [
+						"gorest",
+						"co",
+						"in"
+					],
+					"path": [
+						"public",
+						"v2",
+						"comments",
+						"{{idComment}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "e456e110d312ea4c444d8bc03c77222b2c90f1c724b33474c3ce45e481908605",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "idPost",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "idComment",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "name",
+			"value": "Lolo",
+			"type": "string"
+		},
+		{
+			"key": "email",
+			"value": "lolo@lolo.com",
+			"type": "string"
+		}
+	]
+}
