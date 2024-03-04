@@ -5,8 +5,8 @@ generar assertions significativas y por último generar un reporte HTML con los 
 
 
 # Pre requisitos
-Postman
-Jenkins
+- Postman
+- Jenkins
 
 # Flujo
 Listar todos los comentarios y quedarse con el último de la lista.
