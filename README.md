@@ -1,6 +1,8 @@
 # Comenzando
+
 Se deberán crear colecciones, carpetas y pedidos, usar scripts para manipular variables y 
 generar assertions significativas y por último generar un reporte HTML con los resultados de sus ejecuciones. Para esta tarea utilizaran la API contenida en el siguiente [link](https://gorest.co.in/). Esta API consta de un listado de usuarios los cuales pueden generar posts y también comentar estos posts.
+
 
 # Pre requisitos
 Postman
