@@ -50,4 +50,7 @@ Nota: Para evitar errores es recomendable exportar los archivos con las variable
    - idPost
    - idComment
    - name
-   - email   
+   - email
+
+# Ejecución
+   Para ejecutar se hicieron las siguientes integraciones, se puede ejecutar de forma local o desde la nube en el build
